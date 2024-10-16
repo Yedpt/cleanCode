@@ -1,0 +1,1 @@
+// 2 modelos (tablas) para mi bbdd 

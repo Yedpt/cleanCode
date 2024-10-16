@@ -1,0 +1,1 @@
+// interfaz para el modelo 
