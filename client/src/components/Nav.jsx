@@ -30,11 +30,12 @@ const Navbar = () => {
         <nav className={`top-nav__links ${menuOpen ? 'is-open' : ''}`}>
           <Link to="/" onClick={() => setMenuOpen(false)}>Inicio</Link>
           <Link to="/noticias" onClick={() => setMenuOpen(false)}>Noticias</Link>
-          <a href="/#about" onClick={() => setMenuOpen(false)}>Sobre nosotros</a>
+          <a href="/#about" onClick={() => setMenuOpen(false)}>Videos</a>
+          <a href="/#about" onClick={() => setMenuOpen(false)}>Recursos para programar</a>
           {user ? (
-            <span className="auth-chip">{user.email}</span>
+            <Link to="/perfil" className="auth-chip" onClick={() => setMenuOpen(false)}>Mi perfil</Link>
           ) : (
-            <Link to="/noticias" className="auth-chip" onClick={() => setMenuOpen(false)}>Iniciar sesion</Link>
+            <Link to="/login" className="auth-chip" onClick={() => setMenuOpen(false)}>Iniciar sesion</Link>
           )}
         </nav>
       </div>

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import homeHero from '../assets/home.jpg'
 import codeYed from '../assets/CodeYed1.png'
 import angular from '../assets/angular.jpg'
@@ -17,13 +16,6 @@ const Home = () => {
             Bienvenido a
             <span> CleanCoders</span>
           </h1>
-          <p>
-            Noticias, recursos y videos para programadores en un espacio pensado para aprender
-            y construir proyectos reales.
-          </p>
-          <div className="hero__actions">
-            <Link to="/noticias" className="btn btn--primary">Ver noticias</Link>
-          </div>
         </div>
       </section>
 

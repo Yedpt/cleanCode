@@ -1,12 +1,19 @@
 import  { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
-const LoginForm = () => {
+const LoginForm = ({
+  initialMode = 'login',
+  lockMode = false,
+  successRedirect = null,
+  className = '',
+}) => {
   const { login, register, user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [mode, setMode] = useState('login');
+  const [mode, setMode] = useState(initialMode);
   const [message, setMessage] = useState('');
 
   const submit = async (e) => {
@@ -18,12 +25,20 @@ const LoginForm = () => {
       if (!result?.ok) {
         const text = result?.error?.message || 'No se pudo iniciar sesion';
         setMessage(text);
+      } else if (successRedirect) {
+        navigate(successRedirect);
       }
     } else {
       const result = await register(email, password, name);
       if (result?.id) {
-        setMessage('Registro exitoso. Ahora puedes iniciar sesion.');
-        setMode('login');
+        if (successRedirect) {
+          navigate(successRedirect);
+        } else if (!lockMode) {
+          setMessage('Registro exitoso. Ahora puedes iniciar sesion.');
+          setMode('login');
+        } else {
+          setMessage('Registro exitoso. Ya puedes iniciar sesion.');
+        }
       } else {
         setMessage(result?.message || 'No se pudo crear la cuenta');
       }
@@ -41,7 +56,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={submit} className="auth-form">
+    <form onSubmit={submit} className={`auth-form ${className}`.trim()}>
       {mode === 'register' && (
         <div className="field">
           <label htmlFor="name">Nombre</label>
@@ -85,13 +100,16 @@ const LoginForm = () => {
         <button className="btn btn--primary" type="submit">
           {mode === 'login' ? 'Entrar' : 'Crear cuenta'}
         </button>
-        <button
-          className="btn btn--ghost"
-          type="button"
-          onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-        >
-          {mode === 'login' ? 'Crear cuenta' : 'Tengo cuenta'}
-        </button>
+
+        {!lockMode ? (
+          <button
+            className="btn btn--ghost"
+            type="button"
+            onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+          >
+            {mode === 'login' ? 'Crear cuenta' : 'Tengo cuenta'}
+          </button>
+        ) : null}
       </div>
     </form>
   );

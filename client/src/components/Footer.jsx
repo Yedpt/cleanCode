@@ -10,7 +10,9 @@ const Footer = () => {
       <div className="site-footer__links">
         <Link to="/">Inicio</Link>
         <Link to="/noticias">Noticias</Link>
-        <a href="/#about">Sobre nosotros</a>
+        <Link to="/registro">Registro</Link>
+        <Link to="/perfil">Perfil</Link>
+        <Link to="/login">Login</Link>
       </div>
       <p className="site-footer__copy">Todos los derechos reservados. CleanCode {year}</p>
     </footer>

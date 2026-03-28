@@ -46,7 +46,7 @@ a {
 }
 
 .app-main {
-	width: min(1280px, 100% - 2rem);
+	width: min(1280px, 100% - 1.5rem);
 	margin: 0 auto;
 	flex: 1;
 }
@@ -61,9 +61,9 @@ a {
 }
 
 .top-nav__inner {
-	width: min(1280px, 100% - 2rem);
+	width: min(1240px, 100% - 1.5rem);
 	margin: 0 auto;
-	height: 68px;
+	height: 66px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -84,7 +84,7 @@ a {
 
 .brand__text {
 	font-weight: 700;
-	font-size: 1rem;
+	font-size: 0.9rem;
 }
 
 .menu-toggle {
@@ -132,16 +132,17 @@ a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.35rem 0.9rem;
+	padding: 0.34rem 0.95rem;
 	border-radius: 99px;
 	border: 1px solid rgba(53, 214, 70, 0.45);
 	background: var(--neon-soft);
 	color: #88ef9a;
-	font-size: 0.85rem;
+	font-size: 0.75rem;
+	font-weight: 700;
 }
 
 .home-page {
-	padding: 1rem 0 2rem;
+	padding: 0 0 2rem;
 	display: grid;
 	gap: 1.2rem;
 }
@@ -164,8 +165,10 @@ a {
 .hero__content {
 	position: relative;
 	z-index: 1;
-	padding: 1.4rem;
-	max-width: 520px;
+	padding: 4.8rem 1.35rem 1.5rem;
+	max-width: 760px;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .eyebrow {
@@ -186,6 +189,7 @@ a {
 
 .hero h1 span {
 	color: var(--neon);
+	display: block;
 }
 
 .hero p {
@@ -233,6 +237,7 @@ a {
 .section {
 	width: min(1180px, 100%);
 	margin: 0 auto;
+	padding: 0 0.45rem;
 }
 
 .spotlight-card {
@@ -301,6 +306,109 @@ a {
 .auth-form {
 	display: grid;
 	gap: 0.72rem;
+}
+
+.auth-page,
+.profile-page {
+	min-height: calc(100vh - 150px);
+	display: grid;
+	place-items: center;
+	padding: 1rem 0 2rem;
+}
+
+.auth-card,
+.profile-card {
+	width: min(410px, 100%);
+	border: 1px solid var(--border);
+	border-radius: 16px;
+	background: rgba(18, 22, 46, 0.95);
+	padding: 1rem;
+	display: grid;
+	gap: 0.8rem;
+}
+
+.auth-card h1,
+.profile-card h1 {
+	margin: 0;
+	font-family: 'Orbitron', sans-serif;
+	font-size: 1.55rem;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.auth-form--page {
+	margin-top: 0.2rem;
+}
+
+.auth-page__switch {
+	margin: 0;
+	text-align: center;
+	color: var(--text-muted);
+	font-size: 0.95rem;
+}
+
+.auth-page__switch a {
+	color: #8df39a;
+	font-weight: 700;
+}
+
+.profile-card__welcome {
+	margin: 0;
+	color: var(--text-main);
+	font-size: 1rem;
+}
+
+.profile-card__welcome span {
+	color: #88ef9a;
+	font-weight: 700;
+}
+
+.profile-menu {
+	display: grid;
+	gap: 0.55rem;
+}
+
+.profile-menu button {
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	padding: 0.55rem 0.7rem;
+	background: #202849;
+	color: var(--text-main);
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 0.86rem;
+}
+
+.profile-card__block {
+	display: grid;
+	gap: 0.12rem;
+	padding: 0.58rem 0.72rem;
+	border-radius: 10px;
+	background: rgba(8, 12, 32, 0.55);
+}
+
+.profile-card__block span {
+	font-size: 0.82rem;
+	color: var(--text-muted);
+	text-transform: uppercase;
+}
+
+.profile-card__block strong {
+	font-size: 1rem;
+}
+
+.profile-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.45rem;
+}
+
+.profile-links a {
+	border: 1px solid var(--border);
+	padding: 0.4rem 0.65rem;
+	border-radius: 999px;
+	font-size: 0.84rem;
 }
 
 .field {
@@ -576,39 +684,49 @@ a {
 	.news-grid--list .news-card__image {
 		height: 300px;
 	}
+
+	.auth-card,
+	.profile-card {
+		padding: 1.35rem;
+	}
 }
 
 @media (min-width: 1024px) {
 	.top-nav {
-		position: relative;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
 		background: transparent;
 		border-bottom: 0;
 		backdrop-filter: none;
-		margin-bottom: -68px;
+		margin-bottom: 0;
 	}
 
 	.top-nav__inner {
 		position: relative;
 		z-index: 3;
+		height: 70px;
+		padding-top: 0.2rem;
 	}
 
 	.brand__text {
-		font-size: 0.92rem;
+		font-size: 0.72rem;
 	}
 
 	.top-nav__links {
-		gap: 1rem;
+		gap: 0.85rem;
 	}
 
 	.top-nav__links a {
-		font-size: 0.64rem;
+		font-size: 0.62rem;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.06em;
 	}
 
 	.auth-chip {
-		font-size: 0.64rem;
-		padding: 0.3rem 0.75rem;
+		font-size: 0.62rem;
+		padding: 0.26rem 0.8rem;
 	}
 
 	.home-page {
@@ -617,24 +735,20 @@ a {
 	}
 
 	.hero {
-		min-height: 430px;
+		min-height: 440px;
 		border-radius: 0;
 	}
 
 	.hero__content {
-		padding: 5.5rem 2.3rem;
+		padding: 8.8rem 2.3rem 2.3rem;
 		max-width: 760px;
 		margin: 0 auto;
 		text-align: center;
 	}
 
-	.hero__actions {
-		display: flex;
-		justify-content: center;
-	}
-
 	.hero__content h1 {
-		font-size: clamp(3.1rem, 3.5vw, 3.9rem);
+		font-size: clamp(3rem, 3.4vw, 3.8rem);
+		line-height: 0.94;
 	}
 
 	.hero--compact {
@@ -642,7 +756,7 @@ a {
 	}
 
 	.section {
-		padding: 0 0.2rem;
+		padding: 0;
 	}
 
 	.news-grid {
@@ -680,5 +794,10 @@ a {
 
 	.detail-card__image {
 		height: 280px;
+	}
+
+	.auth-page,
+	.profile-page {
+		min-height: calc(100vh - 90px);
 	}
 }
