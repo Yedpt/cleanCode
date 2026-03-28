@@ -1,13 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/tailwind.css";
 
-:root {
-  font-family: "Orbitron", sans-serif;
-}
-
-* {
-  margin: 0%;
-  padding: 0%;
-  box-sizing: border-box;
-}
+/* Custom global styles (add after Tailwind import if needed) */
+html, body, #root { height: 100%; }
+body { font-family: 'Inter', sans-serif; }
