@@ -39,10 +39,11 @@ const newsModel = connectionDB.define<newsCreationAttributes>('news', {
     num_likes: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
     },
     image_url: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     }
 },
 {
