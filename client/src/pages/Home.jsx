@@ -32,8 +32,7 @@ const Home = () => {
           <article className="spotlight-card">
             <img src={angular} alt="Angular" />
             <div>
-              <h3>Mira lo nuevo de Angular 18</h3>
-              <p>Nuevas mejoras para rendimiento, DX y despliegues modernos.</p>
+              <h3>Mira lo nuevo de Angular 18!</h3>
             </div>
           </article>
 
