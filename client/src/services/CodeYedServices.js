@@ -34,6 +34,11 @@ export const getNews = async (token) => {
 	return handleRes(res);
 };
 
+export const getNewsById = async (id, token) => {
+	const res = await fetch(`${API}/api/news/${id}`, { headers: authHeaders(token) });
+	return handleRes(res);
+};
+
 export const createNews = async (data, token) => {
 	const res = await fetch(`${API}/api/news`, {
 		method: 'POST',

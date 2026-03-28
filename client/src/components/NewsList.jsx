@@ -1,8 +1,10 @@
 import { useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import * as api from '../services/CodeYedServices';
 import { AuthContext } from '../context/AuthContext';
+import fallbackNews from '../assets/lenguajes.jpg';
 
-const NewsList = () => {
+const NewsList = ({ variant = 'grid' }) => {
   const { token, user } = useContext(AuthContext);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,24 +33,38 @@ const NewsList = () => {
     load();
   };
 
-  if (loading) return <div>Cargando noticias...</div>;
+  if (loading) return <div className="news-state">Cargando noticias...</div>;
+
+  if (!items.length) {
+    return <div className="news-state">No hay noticias todavia. Crea la primera desde tu panel.</div>;
+  }
+
+  const rootClass = variant === 'list' ? 'news-grid news-grid--list' : 'news-grid';
 
   return (
-    <div>
+    <div className={rootClass}>
       {items.map((it) => (
-        <div key={it.id} style={{ border: '1px solid #ccc', padding: 12, marginBottom: 8 }}>
-          <h3>{it.title}</h3>
-          <p>{it.news?.slice(0, 200)}</p>
-          <small>Autor: {it.user_id ?? 'Anónimo'}</small>
-          <div>
+        <article key={it.id} className="news-card">
+          <Link to={`/noticias/${it.id}`}>
+            <img className="news-card__image" src={it.image_url || fallbackNews} alt={it.title || 'Noticia'} />
+          </Link>
+          <div className="news-card__body">
+            <h3>
+              <Link to={`/noticias/${it.id}`}>{it.title}</Link>
+            </h3>
+            <p>{it.news?.slice(0, 200)}</p>
+            <small>Autor: {it.user_id ?? 'Anonimo'}</small>
+          </div>
+
+          <div className="news-card__actions">
             {user && (user.rol === 'admin' || user.id === it.user_id) && (
               <>
-                <button onClick={() => onEdit(it.id)} style={{ marginRight: 8 }}>Editar</button>
-                <button onClick={() => onDelete(it.id)}>Eliminar</button>
+                <button className="btn btn--ghost" onClick={() => onEdit(it.id)}>Editar</button>
+                <button className="btn btn--danger" onClick={() => onDelete(it.id)}>Eliminar</button>
               </>
             )}
           </div>
-        </div>
+        </article>
       ))}
     </div>
   );
