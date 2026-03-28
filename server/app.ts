@@ -9,12 +9,16 @@ import videoModel from './models/videoModel';
 import cors from 'cors';
 // import path from 'path';
 import { PORT } from './config';
+import { NODE_ENV } from './config';
+import newsRoutes from './routes/newsRoutes';
+import usersRoutes from './routes/usersRoutes';
+import { errorHandler } from './middleware/middleware';
 
 export const app = express();
 
 // configuracion de cors
 app.use(cors({
-    origin: 'http://localhost:5173', // Cambia al puerto de tu frontend
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Cambia al puerto/URL de tu frontend
     credentials: true, // Permite cookies
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -23,8 +27,18 @@ app.use(cors({
 //Middleware para procesar datos JSON
 app.use(express.json());
 
-//rutas API
-// app.use('/api', UserModel);
+// Health check
+app.get('/health', async (_req, res) => {
+    try {
+        await connectionDB.authenticate();
+        res.json({ status: 'ok', db: 'ok' });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', db: 'down', message: err.message || err });
+    }
+});
+// Rutas API
+app.use('/api/news', newsRoutes);
+app.use('/api/users', usersRoutes);
 
 //funcion para autenticcar y sincronizar las tablas de la base de datos
  
@@ -33,17 +47,19 @@ const initializeDatabase = async (Sequelize: Sequelize) => {
         await Sequelize.authenticate();
         console.log("Conexion exitosa a la base de datos");
 
-        await UserModel.sync({force: true});
-        console.log("tabla de usuarios sincronizada");
+        const forceSync = process.env.DB_SYNC_FORCE === 'true' || NODE_ENV === 'test';
 
-        await newsModel.sync({force: true});
-        console.log("tabla de noticias sincronizada");
+        await UserModel.sync({ force: forceSync });
+        console.log("tabla de usuarios sincronizada", { force: forceSync });
 
-        await resourceModel.sync({force: true});
-        console.log("tabla de recursos sincronizada");
+        await newsModel.sync({ force: forceSync });
+        console.log("tabla de noticias sincronizada", { force: forceSync });
 
-        await videoModel.sync({force: true});
-        console.log("tabla de videos sincronizada");
+        await resourceModel.sync({ force: forceSync });
+        console.log("tabla de recursos sincronizada", { force: forceSync });
+
+        await videoModel.sync({ force: forceSync });
+        console.log("tabla de videos sincronizada", { force: forceSync });
     } catch (error) {
         console.error("Error al conectar a la base de datos:", error);
     }
@@ -51,8 +67,9 @@ const initializeDatabase = async (Sequelize: Sequelize) => {
 
 initializeDatabase(connectionDB);
 
-//iniciar servidor 
+// registrar middleware de errores (debe ir después de las rutas)
+app.use(errorHandler);
 
-export const server = app.listen(PORT, () => {
-    console.log(`Servidor iniciado en el puerto en http://localhost:${PORT}`);
+export const server = app.listen(PORT || 3000, () => {
+    console.log(`Servidor iniciado en el puerto en http://localhost:${PORT || 3000}`);
 });
