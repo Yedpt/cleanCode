@@ -72,20 +72,21 @@ a {
 }
 
 .brand {
-	font-family: 'Orbitron', sans-serif;
-	letter-spacing: 0.05em;
+	width: 68px;
+	height: 52px;
+	padding: 0.4rem;
+	background: rgba(17, 23, 53, 0.92);
+	border: 1px solid rgba(53, 214, 70, 0.12);
+	border-radius: 2px;
 	display: flex;
 	align-items: center;
-	gap: 0.45rem;
+	justify-content: center;
 }
 
-.brand__glyph {
-	color: var(--neon);
-}
-
-.brand__text {
-	font-weight: 700;
-	font-size: 0.9rem;
+.brand__logo {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 .menu-toggle {
@@ -707,29 +708,37 @@ a {
 	.top-nav__inner {
 		position: relative;
 		z-index: 3;
-		height: 70px;
-		padding-top: 0.1rem;
+		height: 118px;
+		padding-top: 0.9rem;
 		width: calc(100% - 2.2rem);
+		align-items: flex-start;
 	}
 
-	.brand__text {
-		font-size: 1.18rem;
+	.brand {
+		width: 92px;
+		height: 84px;
+		padding: 0.55rem;
 	}
 
 	.top-nav__links {
-		gap: 1.35rem;
+		gap: 1.45rem;
+		margin-top: 0.72rem;
 	}
 
 	.top-nav__links a {
-		font-size: 1.08rem;
+		font-size: 1rem;
 		text-transform: uppercase;
 		letter-spacing: 0.03em;
 		font-weight: 700;
+		color: #f0f4ff;
 	}
 
 	.auth-chip {
 		font-size: 1rem;
-		padding: 0.5rem 1.3rem;
+		padding: 0.52rem 1.4rem;
+		background: #27d845;
+		color: #06210d;
+		border: 0;
 	}
 
 	.home-page {

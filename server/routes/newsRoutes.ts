@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { body, param, validationResult } from 'express-validator';
 import * as newsCtrl from '../controllers/newsController';
 import { authenticate } from '../middleware/auth';
-import { authorizeNewsOwnerOrAdmin } from '../middleware/authorizeNews';
+import { authorizeRoles } from '../middleware/authorizeRoles';
 
 const router = Router();
 
@@ -19,6 +19,7 @@ router.get('/:id', param('id').isInt().withMessage('id debe ser entero'), valida
 router.post(
 	'/',
 	authenticate,
+	authorizeRoles('admin'),
 	body('title').isString().notEmpty().withMessage('title requerido'),
 	body('news').isString().notEmpty().withMessage('news requerido'),
 	validate,
@@ -28,14 +29,21 @@ router.post(
 router.put(
 	'/:id',
 	authenticate,
+	authorizeRoles('admin'),
 	param('id').isInt().withMessage('id debe ser entero'),
 	body('title').optional().isString(),
 	body('news').optional().isString(),
 	validate,
-	authorizeNewsOwnerOrAdmin,
 	newsCtrl.updateNews,
 );
 
-router.delete('/:id', authenticate, param('id').isInt().withMessage('id debe ser entero'), validate, authorizeNewsOwnerOrAdmin, newsCtrl.deleteNews);
+router.delete(
+	'/:id',
+	authenticate,
+	authorizeRoles('admin'),
+	param('id').isInt().withMessage('id debe ser entero'),
+	validate,
+	newsCtrl.deleteNews,
+);
 
 export default router;

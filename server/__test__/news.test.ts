@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../app';
 import connectionDB from '../database/conectionDB';
+import UserModel from '../models/userModel';
 
 describe('News API', () => {
   let token: string | null = null;
@@ -21,6 +22,8 @@ describe('News API', () => {
 
     const reg = await request(app).post('/api/users/register').send({ email, password, name: 'Test' });
     expect(reg.status).toBe(201);
+
+    await UserModel.update({ rol: 'admin' } as any, { where: { email } });
 
     const login = await request(app).post('/api/users/login').send({ email, password });
     expect(login.status).toBe(200);

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import newsModel from '../models/newsModel';
+import { AuthRequest } from '../middleware/auth';
 
 // Listar todas las noticias
 export const getAllNews = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -29,13 +30,13 @@ export const getNewsById = async (req: Request, res: Response, next: NextFunctio
 };
 
 // Crear noticia
-export const createNews = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createNews = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { title, news, user_id, image_url, num_likes } = req.body;
+    const { title, news, image_url, num_likes } = req.body;
     const created = await newsModel.create({
       title,
       news,
-      user_id: user_id || null,
+      user_id: req.user?.id || null,
       image_url: image_url || null,
       num_likes: num_likes ?? 0,
     } as any);

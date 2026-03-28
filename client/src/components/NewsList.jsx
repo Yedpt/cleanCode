@@ -57,7 +57,7 @@ const NewsList = ({ variant = 'grid' }) => {
           </div>
 
           <div className="news-card__actions">
-            {user && (user.rol === 'admin' || user.id === it.user_id) && (
+            {user && user.rol === 'admin' && (
               <>
                 <button className="btn btn--ghost" onClick={() => onEdit(it.id)}>Editar</button>
                 <button className="btn btn--danger" onClick={() => onDelete(it.id)}>Eliminar</button>
