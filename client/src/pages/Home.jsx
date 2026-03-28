@@ -29,21 +29,21 @@ const Home = () => {
             </div>
           </article>
 
-          <article className="spotlight-card">
+          <article className="spotlight-card spotlight-card--side-a">
             <img src={angular} alt="Angular" />
             <div>
               <h3>Mira lo nuevo de Angular 18!</h3>
             </div>
           </article>
 
-          <article className="spotlight-card">
+          <article className="spotlight-card spotlight-card--side-b">
             <img src={googleTranslate} alt="Herramienta para traducir" />
             <div>
               <h3>Tu sitio web en mas de 120 idiomas con el traductor de Google</h3>
             </div>
           </article>
 
-          <article className="spotlight-card">
+          <article className="spotlight-card spotlight-card--side-c">
             <img src={lenguajesMasSalidas} alt="Lenguajes con mas salidas" />
             <div>
               <h3>Estos seran los lenguajes de programacion con mas salida en 2024</h3>

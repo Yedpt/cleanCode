@@ -713,23 +713,23 @@ a {
 	}
 
 	.brand__text {
-		font-size: 0.95rem;
+		font-size: 1.08rem;
 	}
 
 	.top-nav__links {
-		gap: 1.2rem;
+		gap: 1.35rem;
 	}
 
 	.top-nav__links a {
-		font-size: 0.82rem;
+		font-size: 0.98rem;
 		text-transform: uppercase;
-		letter-spacing: 0.045em;
+		letter-spacing: 0.03em;
 		font-weight: 700;
 	}
 
 	.auth-chip {
-		font-size: 0.76rem;
-		padding: 0.35rem 1rem;
+		font-size: 0.9rem;
+		padding: 0.43rem 1.16rem;
 	}
 
 	.home-page {
@@ -738,12 +738,12 @@ a {
 	}
 
 	.hero {
-		min-height: clamp(470px, 62vh, 690px);
+		min-height: 100vh;
 		border-radius: 0;
 	}
 
 	.hero__content {
-		padding: 10.2rem 2.3rem 2.3rem;
+		padding: 11.4rem 2.3rem 2.3rem;
 		max-width: 760px;
 		margin: 0 auto;
 		text-align: center;
@@ -773,8 +773,31 @@ a {
 	}
 
 	.spotlight-grid {
-		grid-template-columns: 1.64fr 1fr;
-		gap: 0.72rem;
+		grid-template-columns: 1.75fr 1fr;
+		grid-template-areas:
+			"main sideA"
+			"main sideB"
+			"main sideC";
+		gap: 0.78rem;
+		align-items: start;
+	}
+
+	.spotlight-card--primary {
+		grid-area: main;
+		display: grid;
+		grid-template-rows: 1fr auto;
+	}
+
+	.spotlight-card--side-a {
+		grid-area: sideA;
+	}
+
+	.spotlight-card--side-b {
+		grid-area: sideB;
+	}
+
+	.spotlight-card--side-c {
+		grid-area: sideC;
 	}
 
 	.news-grid {
@@ -796,11 +819,12 @@ a {
 	}
 
 	.spotlight-card img {
-		height: 152px;
+		height: 168px;
 	}
 
 	.spotlight-card--primary img {
-		min-height: 430px;
+		height: 100%;
+		min-height: 525px;
 	}
 
 	.spotlight-card h3 {
