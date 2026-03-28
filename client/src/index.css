@@ -46,8 +46,8 @@ a {
 }
 
 .app-main {
-	width: min(1280px, 100% - 1.5rem);
-	margin: 0 auto;
+	width: 100%;
+	margin: 0;
 	flex: 1;
 }
 
@@ -61,7 +61,8 @@ a {
 }
 
 .top-nav__inner {
-	width: min(1240px, 100% - 1.5rem);
+	width: calc(100% - 2rem);
+	max-width: 100%;
 	margin: 0 auto;
 	height: 66px;
 	display: flex;
@@ -235,9 +236,9 @@ a {
 }
 
 .section {
-	width: min(1180px, 100%);
+	width: 100%;
 	margin: 0 auto;
-	padding: 0 0.45rem;
+	padding: 0 1.15rem;
 }
 
 .spotlight-card {
@@ -255,12 +256,12 @@ a {
 }
 
 .spotlight-card div {
-	padding: 0.75rem;
+	padding: 0.35rem 0.35rem 0.5rem;
 }
 
 .spotlight-card h3 {
 	margin: 0;
-	font-size: 1.05rem;
+	font-size: 0.95rem;
 }
 
 .spotlight-card p {
@@ -652,7 +653,7 @@ a {
 
 	.spotlight-card--primary img {
 		height: 100%;
-		min-height: 320px;
+		min-height: 360px;
 	}
 
 	.home-grid {
@@ -666,7 +667,7 @@ a {
 
 	.about-image {
 		margin-top: 0;
-		height: 220px;
+		height: 260px;
 	}
 
 	.news-grid {
@@ -707,7 +708,8 @@ a {
 		position: relative;
 		z-index: 3;
 		height: 70px;
-		padding-top: 0.2rem;
+		padding-top: 0.1rem;
+		width: calc(100% - 3rem);
 	}
 
 	.brand__text {
@@ -735,19 +737,19 @@ a {
 	}
 
 	.hero {
-		min-height: 440px;
+		min-height: clamp(470px, 62vh, 690px);
 		border-radius: 0;
 	}
 
 	.hero__content {
-		padding: 8.8rem 2.3rem 2.3rem;
+		padding: 10.2rem 2.3rem 2.3rem;
 		max-width: 760px;
 		margin: 0 auto;
 		text-align: center;
 	}
 
 	.hero__content h1 {
-		font-size: clamp(3rem, 3.4vw, 3.8rem);
+		font-size: clamp(3.2rem, 3.8vw, 4.2rem);
 		line-height: 0.94;
 	}
 
@@ -756,7 +758,7 @@ a {
 	}
 
 	.section {
-		padding: 0;
+		padding: 0 1.8rem;
 	}
 
 	.news-grid {
@@ -778,11 +780,29 @@ a {
 	}
 
 	.spotlight-card img {
-		height: 150px;
+		height: 160px;
 	}
 
 	.spotlight-card--primary img {
-		min-height: 340px;
+		min-height: 430px;
+	}
+
+	.spotlight-card h3 {
+		font-size: 0.8rem;
+	}
+
+	.panel--about {
+		padding: 0.2rem 0.2rem 0.4rem;
+	}
+
+	.about-block {
+		grid-template-columns: 1.25fr 1fr;
+		align-items: end;
+	}
+
+	.about-image {
+		height: 255px;
+		border-radius: 0;
 	}
 
 	.detail-card {
