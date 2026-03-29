@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
@@ -8,8 +8,16 @@ const Navbar = () => {
   const { user } = useContext(AuthContext)
   const [menuOpen, setMenuOpen] = useState(false)
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
   return (
-    <header className="top-nav">
+    <header className={`top-nav ${menuOpen ? 'menu-open' : ''}`}>
       <div className="top-nav__inner">
         <Link to="/" className="brand" aria-label="Ir al inicio" onClick={() => setMenuOpen(false)}>
           <img src={codeYedLogo} alt="CodeYed" className="brand__logo" />

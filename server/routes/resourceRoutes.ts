@@ -25,7 +25,7 @@ router.post(
 	body('title').isString().notEmpty().withMessage('title requerido'),
 	body('resource').isString().notEmpty().withMessage('resource requerido'),
 	body('resource_url').isURL().withMessage('resource_url debe ser URL válida'),
-	body('image_url').optional().isURL().withMessage('image_url debe ser URL válida'),
+	body('image_url').optional({ values: 'falsy' }).isURL().withMessage('image_url debe ser URL válida'),
 	validate,
 	resourceCtrl.createResource,
 );
@@ -38,7 +38,7 @@ router.put(
 	body('title').optional().isString(),
 	body('resource').optional().isString(),
 	body('resource_url').optional().isURL(),
-	body('image_url').optional().isURL(),
+	body('image_url').optional({ values: 'falsy' }).isURL(),
 	validate,
 	resourceCtrl.updateResource,
 );

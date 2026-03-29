@@ -36,7 +36,13 @@ const Recursos = () => {
   const onCreate = async (e) => {
     e.preventDefault()
     setMessage('')
-    const res = await api.createResource(form, token)
+    const payload = {
+      title: form.title.trim(),
+      resource: form.resource.trim(),
+      resource_url: form.resource_url.trim(),
+      image_url: form.image_url.trim() || undefined,
+    }
+    const res = await api.createResource(payload, token)
     if (res?.id) {
       setForm({ title: '', resource: '', resource_url: '', image_url: '' })
       setMessage('Recurso creado correctamente')

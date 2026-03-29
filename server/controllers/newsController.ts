@@ -5,7 +5,7 @@ import { AuthRequest } from '../middleware/auth';
 // Listar todas las noticias
 export const getAllNews = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const news = await newsModel.findAll();
+    const news = await newsModel.findAll({ order: [['id', 'DESC']] });
     res.json(news);
     return;
   } catch (error) {

@@ -24,7 +24,7 @@ router.post(
 	authorizeRoles('admin'),
 	body('title').isString().notEmpty().withMessage('title requerido'),
 	body('video_url').isURL().withMessage('video_url debe ser URL válida'),
-	body('thumbnail').optional().isURL().withMessage('thumbnail debe ser URL válida'),
+	body('thumbnail').optional({ values: 'falsy' }).isURL().withMessage('thumbnail debe ser URL válida'),
 	validate,
 	videoCtrl.createVideo,
 );
@@ -36,7 +36,7 @@ router.put(
 	param('id').isInt().withMessage('id debe ser entero'),
 	body('title').optional().isString(),
 	body('video_url').optional().isURL(),
-	body('thumbnail').optional().isURL(),
+	body('thumbnail').optional({ values: 'falsy' }).isURL(),
 	validate,
 	videoCtrl.updateVideo,
 );

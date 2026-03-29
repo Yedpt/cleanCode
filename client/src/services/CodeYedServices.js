@@ -49,6 +49,17 @@ export const login = async ({ email, password }) => {
 	}, 'No se pudo iniciar sesion');
 };
 
+export const getUsers = async (token) => {
+	return request('/api/users', { headers: authHeaders(token) }, 'No se pudieron cargar los usuarios');
+};
+
+export const deleteUser = async (id, token) => {
+	return request(`/api/users/${id}`, {
+		method: 'DELETE',
+		headers: { ...authHeaders(token) },
+	}, 'No se pudo eliminar el usuario');
+};
+
 const authHeaders = (token) => (token ? { Authorization: `Bearer ${token}` } : {});
 
 export const getNews = async (token) => {

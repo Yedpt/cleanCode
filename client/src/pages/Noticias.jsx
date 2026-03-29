@@ -13,7 +13,7 @@ const Noticias = () => {
 
       <section className="section" id="noticias" aria-labelledby="news-title">
         <h2 id="news-title">Ultimas noticias</h2>
-        <NewsList variant="list" />
+        <NewsList />
       </section>
     </div>
   )

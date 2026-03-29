@@ -46,7 +46,12 @@ const Videos = () => {
   const onCreate = async (e) => {
     e.preventDefault()
     setMessage('')
-    const res = await api.createVideo(form, token)
+    const payload = {
+      title: form.title.trim(),
+      video_url: form.video_url.trim(),
+      thumbnail: form.thumbnail.trim() || undefined,
+    }
+    const res = await api.createVideo(payload, token)
     if (res?.id) {
       setForm({ title: '', video_url: '', thumbnail: '' })
       setMessage('Video creado correctamente')
@@ -91,6 +96,7 @@ const Videos = () => {
             <input name="title" placeholder="Titulo" value={form.title} onChange={onChange} required />
             <input name="video_url" placeholder="URL del video" value={form.video_url} onChange={onChange} required />
             <input name="thumbnail" placeholder="URL de thumbnail (opcional)" value={form.thumbnail} onChange={onChange} />
+            <small className="admin-form__hint">Thumbnail: imagen de portada opcional del video.</small>
             <button type="submit" className="btn btn--primary">Subir video</button>
             {message ? <p className="form-message">{message}</p> : null}
           </form>
