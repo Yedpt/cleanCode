@@ -7,6 +7,8 @@ import NoticiaDetalle from '../pages/NoticiaDetalle'
 import Login from '../pages/Login'
 import Registro from '../pages/Registro'
 import Perfil from '../pages/Perfil'
+import Videos from '../pages/Videos'
+import Recursos from '../pages/Recursos'
 
 export const routes = createBrowserRouter([{
     path : '/',
@@ -35,6 +37,14 @@ export const routes = createBrowserRouter([{
         {
             path: 'perfil',
             element: <Perfil/>
+        },
+        {
+            path: 'videos',
+            element: <Videos/>
+        },
+        {
+            path: 'recursos',
+            element: <Recursos/>
         }
 
 

@@ -10,6 +10,8 @@ const Footer = () => {
       <div className="site-footer__links">
         <Link to="/">Inicio</Link>
         <Link to="/noticias">Noticias</Link>
+        <Link to="/videos">Videos</Link>
+        <Link to="/recursos">Recursos</Link>
         <Link to="/registro">Registro</Link>
         <Link to="/perfil">Perfil</Link>
         <Link to="/login">Login</Link>

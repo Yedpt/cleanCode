@@ -65,4 +65,76 @@ export const deleteNews = async (id, token) => {
 	return handleRes(res);
 };
 
+export const getVideos = async (token) => {
+	const res = await fetch(`${API}/api/videos`, { headers: authHeaders(token) });
+	return handleRes(res);
+};
+
+export const getVideoById = async (id, token) => {
+	const res = await fetch(`${API}/api/videos/${id}`, { headers: authHeaders(token) });
+	return handleRes(res);
+};
+
+export const createVideo = async (data, token) => {
+	const res = await fetch(`${API}/api/videos`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
+		body: JSON.stringify(data),
+	});
+	return handleRes(res);
+};
+
+export const updateVideo = async (id, data, token) => {
+	const res = await fetch(`${API}/api/videos/${id}`, {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
+		body: JSON.stringify(data),
+	});
+	return handleRes(res);
+};
+
+export const deleteVideo = async (id, token) => {
+	const res = await fetch(`${API}/api/videos/${id}`, {
+		method: 'DELETE',
+		headers: { ...authHeaders(token) },
+	});
+	return handleRes(res);
+};
+
+export const getResources = async (token) => {
+	const res = await fetch(`${API}/api/resources`, { headers: authHeaders(token) });
+	return handleRes(res);
+};
+
+export const getResourceById = async (id, token) => {
+	const res = await fetch(`${API}/api/resources/${id}`, { headers: authHeaders(token) });
+	return handleRes(res);
+};
+
+export const createResource = async (data, token) => {
+	const res = await fetch(`${API}/api/resources`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
+		body: JSON.stringify(data),
+	});
+	return handleRes(res);
+};
+
+export const updateResource = async (id, data, token) => {
+	const res = await fetch(`${API}/api/resources/${id}`, {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
+		body: JSON.stringify(data),
+	});
+	return handleRes(res);
+};
+
+export const deleteResource = async (id, token) => {
+	const res = await fetch(`${API}/api/resources/${id}`, {
+		method: 'DELETE',
+		headers: { ...authHeaders(token) },
+	});
+	return handleRes(res);
+};
+
 // los servicios

@@ -12,6 +12,8 @@ import { PORT } from './config';
 import { NODE_ENV } from './config';
 import newsRoutes from './routes/newsRoutes';
 import usersRoutes from './routes/usersRoutes';
+import videoRoutes from './routes/videoRoutes';
+import resourceRoutes from './routes/resourceRoutes';
 import { errorHandler } from './middleware/middleware';
 
 export const app = express();
@@ -39,6 +41,8 @@ app.get('/health', async (_req, res) => {
 // Rutas API
 app.use('/api/news', newsRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/videos', videoRoutes);
+app.use('/api/resources', resourceRoutes);
 
 //funcion para autenticcar y sincronizar las tablas de la base de datos
  

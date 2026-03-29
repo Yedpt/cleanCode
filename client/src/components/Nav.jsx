@@ -30,8 +30,8 @@ const Navbar = () => {
         <nav className={`top-nav__links ${menuOpen ? 'is-open' : ''}`}>
           <Link to="/" onClick={() => setMenuOpen(false)}>Inicio</Link>
           <Link to="/noticias" onClick={() => setMenuOpen(false)}>Noticias</Link>
-          <a href="/#about" onClick={() => setMenuOpen(false)}>Videos</a>
-          <a href="/#about" onClick={() => setMenuOpen(false)}>Recursos para programar</a>
+          <Link to="/videos" onClick={() => setMenuOpen(false)}>Videos</Link>
+          <Link to="/recursos" onClick={() => setMenuOpen(false)}>Recursos para programar</Link>
           {user ? (
             <Link to="/perfil" className="auth-chip" onClick={() => setMenuOpen(false)}>Mi perfil</Link>
           ) : (
