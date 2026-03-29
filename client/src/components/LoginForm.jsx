@@ -16,6 +16,14 @@ const LoginForm = ({
   const [mode, setMode] = useState(initialMode);
   const [message, setMessage] = useState('');
 
+  const extractErrorMessage = (payload, fallback) => {
+    if (payload?.message) return payload.message;
+    if (Array.isArray(payload?.errors) && payload.errors.length) {
+      return payload.errors[0]?.msg || fallback;
+    }
+    return fallback;
+  };
+
   const submit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -23,7 +31,7 @@ const LoginForm = ({
     if (mode === 'login') {
       const result = await login(email, password);
       if (!result?.ok) {
-        const text = result?.error?.message || 'No se pudo iniciar sesion';
+        const text = extractErrorMessage(result?.error, 'No se pudo iniciar sesion');
         setMessage(text);
       } else if (successRedirect) {
         navigate(successRedirect);
@@ -40,7 +48,7 @@ const LoginForm = ({
           setMessage('Registro exitoso. Ya puedes iniciar sesion.');
         }
       } else {
-        setMessage(result?.message || 'No se pudo crear la cuenta');
+        setMessage(extractErrorMessage(result, 'No se pudo crear la cuenta'));
       }
     }
   };

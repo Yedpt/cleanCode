@@ -1,4 +1,4 @@
-const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const handleRes = async (res) => {
 	const text = await res.text();
@@ -9,132 +9,139 @@ const handleRes = async (res) => {
 	}
 };
 
+const parseError = (data, fallback) => {
+	if (data?.message) return data.message;
+	if (Array.isArray(data?.errors) && data.errors.length) {
+		return data.errors[0]?.msg || fallback;
+	}
+	return fallback;
+};
+
+const request = async (path, options = {}, fallbackError = 'No se pudo completar la solicitud') => {
+	try {
+		const res = await fetch(`${API}${path}`, options);
+		const data = await handleRes(res);
+
+		if (!res.ok) {
+			return { message: parseError(data, fallbackError), errors: data?.errors || null, status: res.status };
+		}
+
+		return data;
+	} catch (error) {
+		console.error('API request failed:', error);
+		return { message: 'No se pudo conectar con el backend. Revisa que el server este levantado.', networkError: true };
+	}
+};
+
 export const register = async ({ email, password, name }) => {
-	const res = await fetch(`${API}/api/users/register`, {
+	return request('/api/users/register', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ email, password, name }),
-	});
-	return handleRes(res);
+	}, 'No se pudo registrar el usuario');
 };
 
 export const login = async ({ email, password }) => {
-	const res = await fetch(`${API}/api/users/login`, {
+	return request('/api/users/login', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ email, password }),
-	});
-	return handleRes(res);
+	}, 'No se pudo iniciar sesion');
 };
 
 const authHeaders = (token) => (token ? { Authorization: `Bearer ${token}` } : {});
 
 export const getNews = async (token) => {
-	const res = await fetch(`${API}/api/news`, { headers: authHeaders(token) });
-	return handleRes(res);
+	return request('/api/news', { headers: authHeaders(token) }, 'No se pudieron cargar las noticias');
 };
 
 export const getNewsById = async (id, token) => {
-	const res = await fetch(`${API}/api/news/${id}`, { headers: authHeaders(token) });
-	return handleRes(res);
+	return request(`/api/news/${id}`, { headers: authHeaders(token) }, 'No se pudo cargar la noticia');
 };
 
 export const createNews = async (data, token) => {
-	const res = await fetch(`${API}/api/news`, {
+	return request('/api/news', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
 		body: JSON.stringify(data),
-	});
-	return handleRes(res);
+	}, 'No se pudo crear la noticia');
 };
 
 export const updateNews = async (id, data, token) => {
-	const res = await fetch(`${API}/api/news/${id}`, {
+	return request(`/api/news/${id}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
 		body: JSON.stringify(data),
-	});
-	return handleRes(res);
+	}, 'No se pudo actualizar la noticia');
 };
 
 export const deleteNews = async (id, token) => {
-	const res = await fetch(`${API}/api/news/${id}`, {
+	return request(`/api/news/${id}`, {
 		method: 'DELETE',
 		headers: { ...authHeaders(token) },
-	});
-	return handleRes(res);
+	}, 'No se pudo eliminar la noticia');
 };
 
 export const getVideos = async (token) => {
-	const res = await fetch(`${API}/api/videos`, { headers: authHeaders(token) });
-	return handleRes(res);
+	return request('/api/videos', { headers: authHeaders(token) }, 'No se pudieron cargar los videos');
 };
 
 export const getVideoById = async (id, token) => {
-	const res = await fetch(`${API}/api/videos/${id}`, { headers: authHeaders(token) });
-	return handleRes(res);
+	return request(`/api/videos/${id}`, { headers: authHeaders(token) }, 'No se pudo cargar el video');
 };
 
 export const createVideo = async (data, token) => {
-	const res = await fetch(`${API}/api/videos`, {
+	return request('/api/videos', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
 		body: JSON.stringify(data),
-	});
-	return handleRes(res);
+	}, 'No se pudo crear el video');
 };
 
 export const updateVideo = async (id, data, token) => {
-	const res = await fetch(`${API}/api/videos/${id}`, {
+	return request(`/api/videos/${id}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
 		body: JSON.stringify(data),
-	});
-	return handleRes(res);
+	}, 'No se pudo actualizar el video');
 };
 
 export const deleteVideo = async (id, token) => {
-	const res = await fetch(`${API}/api/videos/${id}`, {
+	return request(`/api/videos/${id}`, {
 		method: 'DELETE',
 		headers: { ...authHeaders(token) },
-	});
-	return handleRes(res);
+	}, 'No se pudo eliminar el video');
 };
 
 export const getResources = async (token) => {
-	const res = await fetch(`${API}/api/resources`, { headers: authHeaders(token) });
-	return handleRes(res);
+	return request('/api/resources', { headers: authHeaders(token) }, 'No se pudieron cargar los recursos');
 };
 
 export const getResourceById = async (id, token) => {
-	const res = await fetch(`${API}/api/resources/${id}`, { headers: authHeaders(token) });
-	return handleRes(res);
+	return request(`/api/resources/${id}`, { headers: authHeaders(token) }, 'No se pudo cargar el recurso');
 };
 
 export const createResource = async (data, token) => {
-	const res = await fetch(`${API}/api/resources`, {
+	return request('/api/resources', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
 		body: JSON.stringify(data),
-	});
-	return handleRes(res);
+	}, 'No se pudo crear el recurso');
 };
 
 export const updateResource = async (id, data, token) => {
-	const res = await fetch(`${API}/api/resources/${id}`, {
+	return request(`/api/resources/${id}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
 		body: JSON.stringify(data),
-	});
-	return handleRes(res);
+	}, 'No se pudo actualizar el recurso');
 };
 
 export const deleteResource = async (id, token) => {
-	const res = await fetch(`${API}/api/resources/${id}`, {
+	return request(`/api/resources/${id}`, {
 		method: 'DELETE',
 		headers: { ...authHeaders(token) },
-	});
-	return handleRes(res);
+	}, 'No se pudo eliminar el recurso');
 };
 
 // los servicios
