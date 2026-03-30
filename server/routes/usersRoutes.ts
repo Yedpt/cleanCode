@@ -3,6 +3,7 @@ import { body, param, validationResult } from 'express-validator';
 import * as userCtrl from '../controllers/userController';
 import { authenticate } from '../middleware/auth';
 import { authorizeRoles } from '../middleware/authorizeRoles';
+import { authRateLimiter } from '../middleware/security';
 
 const router = Router();
 
@@ -12,8 +13,24 @@ const validate = (req: any, res: any, next: any) => {
   next();
 };
 
-router.post('/register', body('email').isEmail(), body('password').isLength({ min: 6 }), validate, userCtrl.register);
-router.post('/login', body('email').isEmail(), body('password').isLength({ min: 6 }), validate, userCtrl.login);
+router.post(
+  '/register',
+  authRateLimiter,
+  body('email').isEmail().withMessage('email inválido').normalizeEmail(),
+  body('password').isLength({ min: 8 }).withMessage('password mínimo 8 caracteres'),
+  body('name').optional().trim().isLength({ min: 2, max: 120 }).withMessage('name debe tener entre 2 y 120 caracteres'),
+  validate,
+  userCtrl.register,
+);
+
+router.post(
+  '/login',
+  authRateLimiter,
+  body('email').isEmail().withMessage('email inválido').normalizeEmail(),
+  body('password').isString().notEmpty().withMessage('password requerido'),
+  validate,
+  userCtrl.login,
+);
 router.get('/', authenticate, authorizeRoles('admin'), userCtrl.getAllUsers);
 router.delete('/:id', authenticate, authorizeRoles('admin'), param('id').isInt().withMessage('id debe ser entero'), validate, userCtrl.deleteUser);
 

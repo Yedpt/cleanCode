@@ -16,6 +16,17 @@ const Navbar = () => {
     }
   }, [menuOpen])
 
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
   return (
     <header className={`top-nav ${menuOpen ? 'menu-open' : ''}`}>
       <div className="top-nav__inner">
@@ -28,7 +39,7 @@ const Navbar = () => {
           className="menu-toggle"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-expanded={menuOpen}
-          aria-label="Abrir menu"
+          aria-label={menuOpen ? 'Cerrar menu' : 'Abrir menu'}
         >
           <span />
           <span />

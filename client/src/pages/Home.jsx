@@ -12,6 +12,11 @@ const spotlightClassByIndex = [
   'spotlight-card spotlight-card--side-c',
 ]
 
+const spotlightSkeleton = Array.from({ length: 4 }, (_, index) => ({
+  key: `spotlight-skeleton-${index}`,
+  className: spotlightClassByIndex[index] || 'spotlight-card',
+}))
+
 const Home = () => {
   const [spotlightNews, setSpotlightNews] = useState([])
   const [loadingSpotlight, setLoadingSpotlight] = useState(true)
@@ -67,7 +72,19 @@ const Home = () => {
 
       <section className="section" aria-labelledby="spotlight-title">
         <h2 id="spotlight-title">Actualidad code</h2>
-        {loadingSpotlight ? <div className="news-state">Cargando actualidad...</div> : null}
+        {loadingSpotlight ? (
+          <div className="spotlight-grid spotlight-grid--skeleton" aria-hidden="true">
+            {spotlightSkeleton.map((item) => (
+              <article className={`${item.className} skeleton-card`} key={item.key}>
+                <div className="skeleton skeleton--image" />
+                <div className="spotlight-card__body">
+                  <div className="skeleton skeleton--line" />
+                  <div className="skeleton skeleton--line skeleton--line-short" />
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : null}
 
         {!loadingSpotlight && !spotlightCards.length ? (
           <div className="news-state">Todavia no hay noticias para mostrar en portada.</div>
@@ -79,7 +96,7 @@ const Home = () => {
               <article className={item.className} key={item.id}>
                 <Link to={`/noticias/${item.id}`} className="spotlight-card__link">
                   <img src={item.image_url || fallbackNews} alt={item.title || 'Noticia'} />
-                  <div>
+                  <div className="spotlight-card__body">
                     <h3>{item.title}</h3>
                   </div>
                 </Link>

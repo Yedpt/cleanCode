@@ -64,6 +64,7 @@ const NewsList = ({ variant = 'grid' }) => {
   };
 
   const rootClass = variant === 'list' ? 'news-grid news-grid--list' : 'news-grid';
+  const skeletonCards = Array.from({ length: 3 }, (_, index) => index);
 
   return (
     <>
@@ -77,7 +78,20 @@ const NewsList = ({ variant = 'grid' }) => {
         </form>
       ) : null}
 
-      {loading ? <div className="news-state">Cargando noticias...</div> : null}
+      {loading ? (
+        <div className={`${rootClass} grid-skeleton`} aria-hidden="true">
+          {skeletonCards.map((item) => (
+            <article className="news-card skeleton-card" key={`news-skeleton-${item}`}>
+              <div className="skeleton skeleton--image" />
+              <div className="news-card__body">
+                <div className="skeleton skeleton--line" />
+                <div className="skeleton skeleton--line skeleton--line-short" />
+                <div className="skeleton skeleton--line" />
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : null}
 
       {!loading && !items.length ? (
         <div className="news-state">No hay noticias todavia. Crea la primera desde tu panel.</div>

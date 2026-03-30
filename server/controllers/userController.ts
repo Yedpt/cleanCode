@@ -5,10 +5,17 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config';
 import { Op } from 'sequelize';
 import { AuthRequest } from '../middleware/auth';
+import connectionDB from '../database/conectionDB';
+import newsModel from '../models/newsModel';
+import videoModel from '../models/videoModel';
+import resourceModel from '../models/resourceModel';
 
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { email, password, name } = req.body;
+    const email = String(req.body.email || '').trim().toLowerCase();
+    const password = String(req.body.password || '');
+    const name = req.body.name ? String(req.body.name).trim() : null;
+
     if (!email || !password) {
       res.status(400).json({ message: 'email y password requeridos' });
       return;
@@ -31,7 +38,9 @@ export const register = async (req: Request, res: Response, next: NextFunction):
 
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { email, password } = req.body;
+    const email = String(req.body.email || '').trim().toLowerCase();
+    const password = String(req.body.password || '');
+
     if (!email || !password) {
       res.status(400).json({ message: 'email y password requeridos' });
       return;
@@ -54,8 +63,13 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
       return;
     }
 
+    if (!JWT_SECRET) {
+      res.status(500).json({ message: 'Configuración de seguridad inválida' });
+      return;
+    }
+
     const payload = { id: user.get('id'), email: user.get('email'), rol: user.get('rol') };
-    const token = jwt.sign(payload, JWT_SECRET || 'changeme', { expiresIn: '8h' });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '8h' });
     res.json({ token, user: payload });
     return;
   } catch (error) {
@@ -97,21 +111,28 @@ export const deleteUser = async (req: AuthRequest, res: Response, next: NextFunc
     }
 
     const user: any = await UserModel.findByPk(id);
-    if (!user || user.get('status') === 'deleted') {
+    if (!user) {
       res.status(404).json({ message: 'Usuario no encontrado' });
       return;
     }
 
-    const safeEmail = `deleted_${id}_${Date.now()}@removed.local`;
+    const tx = await connectionDB.transaction();
 
-    await user.update({
-      status: 'deleted',
-      email: safeEmail,
-      rol: 'usuario',
-      name: user.get('name') || `Usuario ${id}`,
-    });
+    try {
+      await Promise.all([
+        newsModel.destroy({ where: { user_id: id }, transaction: tx }),
+        videoModel.destroy({ where: { user_id: id }, transaction: tx }),
+        resourceModel.destroy({ where: { user_id: id }, transaction: tx }),
+      ]);
 
-    res.json({ message: 'Usuario eliminado correctamente' });
+      await user.destroy({ transaction: tx });
+      await tx.commit();
+    } catch (error) {
+      await tx.rollback();
+      throw error;
+    }
+
+    res.json({ message: 'Usuario eliminado definitivamente' });
     return;
   } catch (error) {
     next(error);

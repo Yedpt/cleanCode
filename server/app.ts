@@ -7,6 +7,7 @@ import newsModel from './models/newsModel';
 import resourceModel from './models/resourceModel';
 import videoModel from './models/videoModel';
 import cors from 'cors';
+import helmet from 'helmet';
 // import path from 'path';
 import { PORT } from './config';
 import { NODE_ENV } from './config';
@@ -15,8 +16,16 @@ import usersRoutes from './routes/usersRoutes';
 import videoRoutes from './routes/videoRoutes';
 import resourceRoutes from './routes/resourceRoutes';
 import { errorHandler } from './middleware/middleware';
+import { apiRateLimiter, validateSecurityConfig } from './middleware/security';
 
 export const app = express();
+
+validateSecurityConfig();
+app.disable('x-powered-by');
+
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
 
 // configuracion de cors
 app.use(cors({
@@ -27,7 +36,8 @@ app.use(cors({
 }));
 
 //Middleware para procesar datos JSON
-app.use(express.json());
+app.use(express.json({ limit: '16kb' }));
+app.use(apiRateLimiter);
 
 // Health check
 app.get('/health', async (_req, res) => {
@@ -35,6 +45,11 @@ app.get('/health', async (_req, res) => {
         await connectionDB.authenticate();
         res.json({ status: 'ok', db: 'ok' });
     } catch (err: any) {
+        if (NODE_ENV === 'production') {
+            res.status(500).json({ status: 'error', db: 'down' });
+            return;
+        }
+
         res.status(500).json({ status: 'error', db: 'down', message: err.message || err });
     }
 });

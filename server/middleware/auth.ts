@@ -7,6 +7,11 @@ export interface AuthRequest extends Request {
 }
 
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  if (!JWT_SECRET) {
+    res.status(500).json({ message: 'Configuración de seguridad inválida' });
+    return;
+  }
+
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     res.status(401).json({ message: 'No autorizado' });
@@ -21,7 +26,7 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
 
   const [, token] = parts;
   try {
-    const decoded = jwt.verify(token, JWT_SECRET || 'changeme');
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
     next();
     return;

@@ -79,6 +79,8 @@ const Videos = () => {
     embedUrl: toEmbedUrl(item.video_url),
   })), [items])
 
+  const skeletonCards = Array.from({ length: 4 }, (_, index) => index)
+
   return (
     <div className="page-wrap">
       <section className="hero hero--compact" style={{ backgroundImage: `url(${homeHero})` }}>
@@ -102,7 +104,19 @@ const Videos = () => {
           </form>
         ) : null}
 
-        {loading ? <div className="news-state">Cargando videos...</div> : null}
+        {loading ? (
+          <div className="video-grid grid-skeleton" aria-hidden="true">
+            {skeletonCards.map((item) => (
+              <article className="video-card skeleton-card" key={`video-skeleton-${item}`}>
+                <div className="skeleton skeleton--video" />
+                <div className="video-card__body">
+                  <div className="skeleton skeleton--line" />
+                  <div className="skeleton skeleton--line skeleton--line-short" />
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : null}
 
         {!loading && !renderedItems.length ? (
           <div className="news-state">No hay videos aun.</div>

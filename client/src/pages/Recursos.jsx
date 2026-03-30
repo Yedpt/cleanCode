@@ -65,6 +65,8 @@ const Recursos = () => {
     load()
   }
 
+  const skeletonCards = Array.from({ length: 4 }, (_, index) => index)
+
   return (
     <div className="page-wrap">
       <section className="hero hero--compact" style={{ backgroundImage: `url(${homeHero})` }}>
@@ -88,7 +90,20 @@ const Recursos = () => {
           </form>
         ) : null}
 
-        {loading ? <div className="news-state">Cargando recursos...</div> : null}
+        {loading ? (
+          <div className="resource-grid grid-skeleton" aria-hidden="true">
+            {skeletonCards.map((item) => (
+              <article className="resource-card skeleton-card" key={`resource-skeleton-${item}`}>
+                <div className="skeleton skeleton--image" />
+                <div className="resource-card__body">
+                  <div className="skeleton skeleton--line" />
+                  <div className="skeleton skeleton--line skeleton--line-short" />
+                  <div className="skeleton skeleton--line" />
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : null}
 
         {!loading && !items.length ? (
           <div className="news-state">No hay recursos aun.</div>
