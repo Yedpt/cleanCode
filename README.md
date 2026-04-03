@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/Yedpt/codeYed_blog/blob/feature-home/client/src/assets/CleanCode_.png?raw=true" alt="Clean Coders Blog Banner" style="max-width: 100%; max-height: 250px; border-radius: 12px; object-fit: cover; margin: 0 auto; display: block;" />
+  
 
   # 🚀 Clean Coders Blog
 
