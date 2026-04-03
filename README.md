@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/Yedpt/codeYed_blog/blob/feature-home/client/src/assets/CleanCode.png?raw=true" alt="Clean Coders Blog Banner" style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" />
+  <img src="https://github.com/Yedpt/codeYed_blog/blob/feature-home/client/src/assets/CleanCode.png?raw=true" alt="Clean Coders Blog Banner" style="max-width: 100%; height: auto; border-radius: 12px; object-fit: cover; margin: 0 auto; display: block;" />
 
   # ?? Clean Coders Blog
 
@@ -35,7 +35,7 @@ La arquitectura del c?digo sigue las mejores pr?cticas de separaci?n de responsa
 ?? CleanCoders_Blog/
 ??? ?? client/                # ?? Frontend React + Vite (SPA)
 ?   ??? ?? public/            # ?? Archivos est?ticos p?blicos
-?   ??? ?? src/
+?   ??? ?? src/               
 ?   ?   ??? ?? assets/        # ?? Recursos visuales y multimedia
 ?   ?   ??? ?? components/    # ?? Componentes UI (Nav, Footer, Forms)
 ?   ?   ??? ?? context/       # ?? Estados globales y AuthContext
