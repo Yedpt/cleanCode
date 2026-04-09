@@ -24,7 +24,12 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
     return;
   }
 
-  const [, token] = parts;
+  const [scheme, token] = parts;
+  if (scheme.toLowerCase() !== 'bearer' || !token) {
+    res.status(401).json({ message: 'Esquema de autorización inválido' });
+    return;
+  }
+
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;600;700&display=swap');
-@import "tailwindcss/tailwind.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
 	--bg-main: #070b1f;

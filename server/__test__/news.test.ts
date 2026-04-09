@@ -7,7 +7,6 @@ describe('News API', () => {
   let token: string | null = null;
 
   beforeAll(async () => {
-    process.env.NODE_ENV = 'test';
     // La app al importarse sincroniza; aseguramos la conexión
     await connectionDB.sync({ force: true });
   });

@@ -19,6 +19,7 @@ import { errorHandler } from './middleware/middleware';
 import { apiRateLimiter, validateSecurityConfig } from './middleware/security';
 
 export const app = express();
+let serverInstance: ReturnType<typeof app.listen> | null = null;
 
 validateSecurityConfig();
 app.disable('x-powered-by');
@@ -84,11 +85,22 @@ const initializeDatabase = async (Sequelize: Sequelize) => {
     }
 };
 
-initializeDatabase(connectionDB);
-
 // registrar middleware de errores (debe ir después de las rutas)
 app.use(errorHandler);
 
-export const server = app.listen(PORT || 3000, () => {
-    console.log(`Servidor iniciado en el puerto en http://localhost:${PORT || 3000}`);
-});
+export const startServer = async () => {
+    await initializeDatabase(connectionDB);
+
+    const port = PORT || 3000;
+    serverInstance = app.listen(port, () => {
+        console.log(`Servidor iniciado en el puerto en http://localhost:${port}`);
+    });
+
+    return serverInstance;
+};
+
+export const getServer = () => serverInstance;
+
+if (require.main === module) {
+    void startServer();
+}
